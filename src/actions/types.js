@@ -1,0 +1,1 @@
+export const MOSTRAR_IMAGENES = 'MOSTRAR_IMAGENES';
