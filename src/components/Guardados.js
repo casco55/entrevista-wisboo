@@ -32,9 +32,7 @@ class Guardados extends Component {
                 console.log(this.state.pages)
             }) 
         });     
-        /* const data = JSON.parse(localStorage.getItem("lista"));
-        this.setState({lista: data})
-        console.log('renderizado') */
+       
     }
     selectSizePage = e => {
         this.setState({size: e.target.value}, function(){

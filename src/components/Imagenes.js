@@ -2,12 +2,6 @@ import React, { Component, useState } from 'react';
 import axios from 'axios';
 import $ from 'jquery'
 
-
-// Redux
-import {connect} from 'react-redux';
-import { mostrarImagenes } from '../actions/imagenesActions';
-
-const client_id = 'NxjIiCEfV7z1QNgCWtuw1VwbpeUOIPG42yj7RW-cTtE';
 const end_point = 'http://localhost/api_rest/api.php';
 
 
