@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
-import $ from 'jquery'
+import $ from 'jquery';
 
 const end_point = 'http://localhost/api_rest/api.php';
 

@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Imagenes from './components/Imagenes';
 import Guardados from './components/Guardados';
-import { Provider } from 'react-redux';
-import  store from './store';
+
+
 
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
   return (
-    <Provider store={store}>
+    
       <Router>
         <React.Fragment>
           <Header />
@@ -21,7 +21,7 @@ function App() {
           
         </React.Fragment>
       </Router>
-    </Provider>
+    
   );
 }
 
