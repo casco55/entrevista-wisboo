@@ -46,7 +46,8 @@ class Guardados extends Component {
             console.log(resultado)
             this.setState({
                 lista: resultado.urls,
-                pages: resultado.paginas
+                pages: resultado.paginas,
+                page: resultado.pagina
             }, function(){
                 
             }) 
@@ -115,35 +116,53 @@ class Guardados extends Component {
         return (
             <React.Fragment>
 
-                <div className="container my-5">
+                <div className="container-fluid buscador mt-0">
                     <div className="row">
-                       <select onChange={this.selectSizePage}>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                       </select>
-                       <select onChange={this.selectPage}>
-                            {items}
-                       </select>
+                        <form className="col-md-12 d-md-flex flex-md-row justify-content-around ">
+                          
+                          <div className="form-group col-md-3">
+                            <label>Resultados por página</label>
+                            <select className="form-control" onChange={this.selectSizePage}>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                           </div>
+                          <div className="form-group col-md-3">
+                            <label>Seleccionar página</label>
+                            <select className="form-control" onChange={this.selectPage}>
+                                {items}
+                            </select>
+                          </div>
+                          
+                        </form>
                     </div>
                 </div>
-                
-                <div className="container my-5" id="imagenes-guardas">
-               
-                    <h2 className="text-center" onClick={this.mostrarLista}>Imágenes Guardadas</h2>
-                    <div className="row">
-                     {lista.map((imagen) =>(
-                            
-                            <div className="col-lg-4 my-3 d-flex flex-column">
-                                <img src={imagen.url} className="img-fluid"/>                   
-                               
+
+                <div className="container mt-5 mb-2">
+                    <h2 className="text-center" onClick={this.mostrarLista}>{pages == 0 ? 'No has agregado imágenes' : 'Imagenes Favoritas'}</h2>
+                    <h2 className={pages == 0 ? "d-none" : "text-center"}>Página {page} de {pages}</h2>
+                        <div className="card-columns">
+                            {lista && lista.map((imagen) =>(
+                            <div className="card">
+                                <img className="card-img-top img-fluid" src={imagen.url} alt="Card image cap" />
+                                                                
                             </div>
-                        ))} 
                         
-                    {page > 1 && <button className="btn btn-info" onClick={this.handlePrevPage}>Anterior</button>}  
-                   {page >=1 && page != pages && <button className="btn btn-info" onClick={this.handleNextPage}>Siguiente</button>}
-                    </div>
+                        ))}
+                        </div>
                 </div>
+
+
+            
+                
+                {pages >1 && <div className="container-fluid pie py-3 mt-3">
+                        <div className="row justify-content-around">   
+                            {page > 1 && 
+                            <button className="btn btn-info d-inline col-4" onClick={this.handlePrevPage}>Anterior</button>}  
+                            {page >=1 && page != pages && <button className="btn btn-info d-inline col-4" onClick={this.handleNextPage}>Siguiente</button>}
+                        </div>
+                   </div>}
             </React.Fragment>
          );
     }

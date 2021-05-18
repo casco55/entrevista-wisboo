@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
+import $ from 'jquery'
 
 
 // Redux
@@ -15,7 +16,9 @@ const end_point = 'http://localhost/api_rest/api.php';
 
 class Imagenes extends Component {
 
-    
+    componentDidMount = () =>{
+        
+    }
     
     state = { 
         nombre: '',
@@ -41,7 +44,8 @@ class Imagenes extends Component {
                 const resultado = jsonResponse.data
                 this.setState({
                     img: resultado.results,
-                    paginas: resultado.total_pages
+                    paginas: resultado.total_pages,
+                    pagina: 1
                 }, function(){
                     const llenado = [];        
                     for (let i = 1; i <= this.state.paginas; i++) {
@@ -51,6 +55,7 @@ class Imagenes extends Component {
                     console.log(llenado)
                     this.setState({items: llenado}, function(){
                     console.log(this.state.items)
+                    document.ready = document.getElementById("selector").value = this.state.pagina;
                     })
                 })
             })
@@ -60,6 +65,7 @@ class Imagenes extends Component {
     
 
    handleSubmit = e => {
+       e.preventDefault()
         if(this.state.nombre == ""){
             alert('debe completar el campo de buscar');
         }else{
@@ -93,8 +99,10 @@ class Imagenes extends Component {
 
   
    handleNextPage = e =>{
-    
-    this.setState({pagina: this.state.pagina+1}, function () {
+        const page_data = this.state.pagina;
+        const page_update = Number(page_data) + 1;
+        console.log(page_update)
+     this.setState({pagina: page_update}, function () {
         axios.get(`${end_point}?query=${this.state.nombre}&page=${this.state.pagina}&size=${this.state.size}`)
         .then(response => {
             return response            
@@ -105,17 +113,20 @@ class Imagenes extends Component {
                 img: resultado.results,
                 paginas: resultado.total_pages
             }, function(){
-                console.log(this.state.paginas)
+                console.log(this.state.pagina)
                 document.ready = document.getElementById("selector").value = this.state.pagina;
             })
         })
-    });
+    }); 
     /* this.handleSubmit() */
     
 }
     
     handlePrevPage  = e =>{
-        this.setState({pagina: this.state.pagina-1}, function () {
+        const page_data = this.state.pagina;
+        const page_update = Number(page_data) - 1;
+        console.log(page_update)
+        this.setState({pagina: page_update}, function () {
         axios.get(`${end_point}?query=${this.state.nombre}&page=${this.state.pagina}&size=${this.state.size}`)
         .then(response => {
             return response            
@@ -125,7 +136,7 @@ class Imagenes extends Component {
             this.setState({
                 img: resultado
             }, function(){
-                console.log(this.state.paginas)
+                console.log(this.state.pagina)
                 document.ready = document.getElementById("selector").value = this.state.pagina;
             })
         })
@@ -153,7 +164,8 @@ class Imagenes extends Component {
     }
 
     changePage = e =>{
-        this.setState({pagina: e.target.value}, function () {
+        const pagina = Number(e.target.value)
+        this.setState({pagina: pagina}, function () {
             axios.get(`${end_point}?query=${this.state.nombre}&page=${this.state.pagina}&size=${this.state.size}`)
             .then(response => {
                 return response            
@@ -162,7 +174,7 @@ class Imagenes extends Component {
                 const resultado = jsonResponse.data
                 this.setState({
                     img: resultado.results,
-                    paginas: resultado.total_pages
+                    paginas: resultado.total_pages,
                 }, function(){
                     console.log(this.state.pagina)
                 })
@@ -177,22 +189,35 @@ class Imagenes extends Component {
         return (
             
             <React.Fragment>
-                <div className="container my-5">
+                <div className="container-fluid buscador mt-0">
                     <div className="row">
-                       <input type="text" onChange={this.nombreImagen} />
-                       <select onChange={this.sizePage}>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                       </select>
-                       <button onClick={this.handleSubmit}>Buscar</button>
+                        
+                        
+                        <form className="col-md-12 d-md-flex flex-row justify-content-around" onSubmit={this.handleSubmit}>
+                          <div className="form-group col-md-4">
+                            <label>Buscar</label>
+                            <input type="text" className="form-control" placeholder="Car, Airplane, Soccer..." onChange={this.nombreImagen} />
+                          </div>
+                          <div className="form-group col-md-4">
+                            <label>Resultados por página</label>
+                            <select className="form-control" onChange={this.sizePage}>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select>
+                          </div>
+                          <div className="form-group col-md-4 d-flex mt-3 mt-md-0">                            
+                            <input className="btn btn-info align-self-end col-12" type="submit" value="Buscar" />
+                          </div>
+                        </form>
                     </div>
                 </div>
-                <div className="container">
+                <div className="container">               
+                {img ? pagina !=0 &&  <h3 className="text-center">Seleccione la página.</h3>: ''}
+                    <div className="row col-8 col-md-4 mx-auto mt-0 my-3">
                     {pagina !=0 && 
-                        <select id="selector" onChange={this.changePage}>
-                            {items.map((opcion) =>{
-                            
+                        <select id="selector" className={!paginas ? "d-none": "form-control"} onChange={this.changePage}>
+                            {items.map((opcion) =>{                  
                             
 
                             const a = <option value={opcion.valor}>{opcion.valor}</option>
@@ -204,25 +229,53 @@ class Imagenes extends Component {
                         )}
                         </select>
                     }
-                    {pagina > 0 && <h2 className="text-center">Página {pagina} de {paginas}</h2>}
-                    <div className="row">
+                </div>
+                    {paginas < 1 ? <h2 className="text-center"></h2> : !img ? <h2 className="text-center">No se han encontrado resultados</h2> : <h2 className="text-center">Página {pagina} de {paginas}</h2>}
+                <div className="container">
+                    <div className="card-columns">
+                        {img && img.map((imagen) =>(
+                            <div className="card">
+                                <img className="card-img-top img-fluid" src={imagen.urls.thumb} alt="Card image cap" />
+                                <div class="card-body d-flex">
+                                    <a className="btn btn-info col-lg-8 mx-auto mt-2" href={imagen.urls.small} onClick={this.saveImage}>Guardar</a>
+
+                                </div>
+                                
+                            </div>
+
+                        ))}
+                    </div>
+
+
+
+
+
+                    {/* <div className="row">
                        
                         {img.map((imagen) =>(
                             
-                            <div className="col-lg-4 my-3 d-flex flex-column">
+                            <div className="col-lg-4 my-3 d-flex flex-column item">
                                 <img src={imagen.urls.small} className="img-fluid"/>
-                                <a className="btn btn-info col-lg-8 mx-auto" href={imagen.urls.small} onClick={this.saveImage}>Guardar</a>
+                                <a className="btn btn-info col-lg-8 mx-auto mt-2" href={imagen.urls.small} onClick={this.saveImage}>Guardar</a>
                                 
                                
                             </div>
-                        ))}
+                        ))}   
+                   
                     
-                    
-                   {pagina > 1 && <button className="btn btn-info" onClick={this.handlePrevPage}>Anterior</button>}  
-                   {pagina >=1 && pagina != paginas && <button className="btn btn-info" onClick={this.handleNextPage}>Siguiente</button>}   
-                    
-                    </div>
+                    </div> */}
                 </div>
+                    
+                       
+                </div>
+
+                {paginas > 1 && <div className="container-fluid pie py-3 mt-3">
+                        <div className="row justify-content-around">   
+                            {pagina > 1 && 
+                            <button className="btn btn-info d-inline col-4" onClick={this.handlePrevPage}>Anterior</button>}  
+                            {pagina >=1 && pagina != paginas && <button className="btn btn-info d-inline col-4" onClick={this.handleNextPage}>Siguiente</button>}
+                        </div>
+                   </div>}
     
                 
                 </React.Fragment>
