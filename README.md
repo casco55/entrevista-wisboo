@@ -1,3 +1,58 @@
+# Implementación del proyecto
+
+Este es el intructivo para poder implementar la aplicación en la maquina local
+
+## Implementación de aplicación ReactJS
+
+### Crear React APP e instalar librerías
+
+ Se debe crear una aplicación de react con las siguientes librerías: 
+ 
+* "axios": "^0.21.1",
+* "jquery": "^3.6.0",
+* "react": "^17.0.2",
+* "react-dom": "^17.0.2",
+* "react-redux": "^7.2.4",
+* "react-router-dom": "^5.2.0",
+* "react-scripts": "4.0.3",
+* "redux": "^4.1.0",
+* "redux-thunk": "^2.3.0",
+    con el siguiente comando: npm install --save axios jquery react-redux react-router-dom redux redux-thunk
+
+
+Luego debe clonar el repositorio en la carpeta del proyecto con el comando:
+git clone https://github.com/casco55/entrevista-wisboo.git
+O bien crear las carpetas y archivos correspondientes y copiar el código dentro de ellos
+
+
+## Implementación de api local
+
+### crear la base de datos
+* debe crear una base de datos con el siguiente nombre: urls
+ y luego correr el siguiente script:
+    
+CREATE TABLE `urls`.`url` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`url` LONGTEXT NOT NULL,
+PRIMARY KEY (`id`));
+
+### Copiar archivos necesarios
+* luego debe pegar dentro de la ruta de su servidor(xampp, lampp, etc), la carpeta 'api_rest', cambiando el usuario y la contraseña por las suyas en el archivo 'conexion.php', de esta forma:
+
+$conexion = new mysqli("localhost","su_usuario","su_contraseña","urls");
+
+## Correr el proyecto
+
+* Correr servidor local para funcionamiento de la api
+
+* abrir consola en carpeta del proyecto react y ejecutar el sigiente comando: npm start
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
