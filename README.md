@@ -25,7 +25,7 @@ git clone https://github.com/casco55/entrevista-wisboo.git
 O bien crear las carpetas y archivos correspondientes y copiar el código dentro de ellos
 
 
-## Implementación de api local
+## Implementación de api local con PHP
 
 ### crear la base de datos
 * debe crear una base de datos con el siguiente nombre: urls
@@ -47,6 +47,38 @@ $conexion = new mysqli("localhost","su_usuario","su_contraseña","urls");
 
 * abrir consola en carpeta del proyecto react y ejecutar el sigiente comando: npm start
 
+## Implementación de api local con node JS
+
+### crear la base de datos
+* debe crear una base de datos con el siguiente nombre: urls
+ y luego correr el siguiente script:
+    
+CREATE TABLE `urls`.`url` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`url` LONGTEXT NOT NULL,
+PRIMARY KEY (`id`));
+
+### Copiar archivos necesarios
+
+ Se debe crear una aplicación de node con las siguientes librerías: 
+ 
+* "JSONStream": "^1.3.5",
+* "axios": "^0.21.1",
+* "body-parser": "^1.19.0",
+* "cors": "^2.8.5",
+* "express": "^4.17.1",
+* "mysql2": "^2.2.5",
+* "sequelize": "^6.6.2",
+* "sequelize-paginate": "^1.1.6"
+
+Se recomienda instalar nodemon, de manera de reflejar los cambios sin tener que reiniciar el servidor
+
+
+
+* luego debe copiar los archivos y carpetas correspondientes y ejecutar el comando 
+        nodemon index.js
+
+* Es importante cambiar los datos en db.js a los de su propia base de datos
 
 
 

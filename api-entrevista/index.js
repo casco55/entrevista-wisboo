@@ -1,13 +1,16 @@
+/* importación de librerías */
 const express = require('express');
 const bodyParser = require('body-parser');
-var cors = require('cors')
+var cors = require('cors');
+/* //importación de librerías */
 
-const apiRouter = require('./routes/api')
-
+/* Importación de archivos externos */
+const apiRouter = require('./routes/api');
 const app = express();
-
 require('./db');
+/* //Importación de archivos externos */
 
+/* headers para evitar conflictos */
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
@@ -26,12 +29,15 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+/* //headers para evitar conflictos */
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', apiRouter);
 
+/* asignar puerto del servidor */
 app.listen(3001), () => {
     console.log('servidor arrancando en puerto 3001');
 }

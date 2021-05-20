@@ -1,3 +1,5 @@
+
+/* Modelo de datos */
 module.exports = (sequelize, type) => {
    return sequelize.define('url',{
        id: {
