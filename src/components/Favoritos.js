@@ -4,7 +4,7 @@ import axios from 'axios';
 /* // Librerias importadas */
 
 /* url para conectar con la api */
-const end_point = 'http://localhost/api_rest/api.php';
+const end_point = 'http://localhost:3001/api/url';
 
 class Favoritos extends Component {
     /* estado inicial */
@@ -39,7 +39,8 @@ class Favoritos extends Component {
     }
     /* función que se ejecuta al cambiar el selector de cantidad de registros por página */
     selectSizePage = e => {
-        this.setState({size: e.target.value}, function(){
+
+        this.setState({size: e.target.value, page: 1}, function(){
         axios.get(`${end_point}?page=${this.state.page}&size=${this.state.size}`)
         .then(response => {
             return response            
@@ -59,6 +60,7 @@ class Favoritos extends Component {
     }
     /* función que se ejecuta al seleccionar la página que se desea obtener */
     selectPage = e => {
+        
         this.setState({page: e.target.value}, function(){
         axios.get(`${end_point}?page=${this.state.page}&size=${this.state.size}`)
         .then(response => {

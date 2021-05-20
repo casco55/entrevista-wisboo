@@ -5,7 +5,7 @@ import $ from 'jquery';
 /* // Librerias importadas */
 
 /* url para conectar con la api */
-const end_point = 'http://localhost/api_rest/api.php';
+const end_point = 'http://localhost:3001/api/url/unsplash';
 
 
 
@@ -170,7 +170,7 @@ class Imagenes extends Component {
             const saveImage = {"url": this.state.url}
             console.log(saveImage)
             /* se consume api con metodo post para guardar en base de datos y con los datos almacenados en la constante post */
-            axios.post(`${end_point}`, saveImage)
+            axios.post("http://localhost:3001/api/url", saveImage)
             .then(response => {
                 /* control de respuesta y mensajes, según cadena de carácteres retornada por la api */
                 if(response.data == "ok"){
